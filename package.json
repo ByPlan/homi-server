@@ -1,0 +1,38 @@
+{
+  "name": "homi-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ByPlan/homi-server.git"
+  },
+  "author": "Hyeonseop-Noh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ByPlan/homi-server/issues"
+  },
+  "homepage": "https://github.com/ByPlan/homi-server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7",
+    "sequelize": "^6.25.5",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.18.9",
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.5.2"
+  }
+}

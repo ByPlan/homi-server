@@ -3,6 +3,7 @@ import cors from "cors";
 import http from "http";
 import dotenv from "dotenv";
 import path from "path";
+import db from "./db/models/index.js";
 
 const app = express();
 const server = http.createServer(app);

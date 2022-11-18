@@ -12,7 +12,7 @@ if (envFound.error) {
 const development = {
   username: process.env.MYSQL_USERNAME,
   password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+  database: process.env.MYSQL_DATABASE_DEVELOPMENT,
   host: process.env.MYSQL_HOST,
   dialect: process.env.MYSQL_DIALECT,
   timezone: process.env.MYSQL_TIMEZONE,

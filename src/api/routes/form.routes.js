@@ -1,4 +1,7 @@
-import { recommendFurniture } from "../controllers/FormController.js";
+import {
+  createParticipant,
+  recommendFurniture,
+} from "../controllers/FormController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -9,5 +12,7 @@ export default (app) => {
     next();
   });
 
-  app.post("/form", recommendFurniture);
+  app.post("/form", createParticipant);
+
+  app.put("/form/:participantId", recommendFurniture);
 };

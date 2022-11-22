@@ -24,7 +24,7 @@ const recommendFurniture = (req, res) => {
     .recommendFurniture(participantId, formDTO)
     .then((participant, furniture) => {
       res.json({
-        message: "Furniture was recommended successfully!",
+        message: "Furnitures were recommended successfully!",
         participant: participant,
         furniture: furniture,
       });

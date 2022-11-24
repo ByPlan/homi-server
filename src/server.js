@@ -3,6 +3,8 @@ import cors from "cors";
 import http from "http";
 import dotenv from "dotenv";
 import path from "path";
+import authRouter from "./api/routes/auth.routes.js";
+import formRouter from "./api/routes/form.routes.js";
 import db from "./db/models/index.js";
 
 const app = express();
@@ -19,7 +21,11 @@ if (envFound.error) {
 const PORT = process.env.PORT || 8000;
 const API_HOST = process.env.API_HOST || "http://localhost";
 let corsOptions = {
-  origin: API_HOST + ":" + PORT,
+  // origin: API_HOST + ":" + PORT,
+  // Allow API request from any domain
+  origin: "*",
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
@@ -34,12 +40,14 @@ app.use(express.urlencoded({ extended: true }));
 
 // root
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to planby application." });
+  res.json({ message: "Welcome to planby application!" });
 });
 
 await db.sequelize.authenticate();
 
 // routes
+authRouter(app);
+formRouter(app);
 
 // development mode
 db.sequelize.sync({ force: true }).then(() => {

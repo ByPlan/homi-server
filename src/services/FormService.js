@@ -10,6 +10,23 @@ export default class FormService {
     return participantRecord;
   }
 
+  async readParticipant(participantId) {
+    const participantRecord = await db.Participant.findByPk(participantId);
+    if (!participantRecord) {
+      throw new Error("Participant not found!");
+    }
+    return participantRecord;
+  }
+
+  async deleteParticipant(participantId) {
+    await db.Participant.destroy({
+      where: {
+        id: participantId,
+      },
+    });
+    return;
+  }
+
   async recommendFurniture(participantId, formDTO) {
     const participantRecord = await db.Participant.update(
       {
@@ -21,6 +38,10 @@ export default class FormService {
     );
     if (!participantRecord) {
       throw new Error("Participant not found!");
+    }
+    const furnitureList = [];
+    for (const furniture of participantRecord.budget) {
+      furnitureList.push(furniture);
     }
   }
 }

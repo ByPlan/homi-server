@@ -17,6 +17,35 @@ const createParticipant = (req, res) => {
     });
 };
 
+const readParticipant = (req, res) => {
+  const participantId = req.params.participantId;
+  form
+    .readParticipant(participantId)
+    .then((participant) => {
+      res.json({
+        message: "Participant information",
+        participant: participant,
+      });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const deleteParticipant = (req, res) => {
+  const participantId = req.params.participantId;
+  form
+    .deleteParticipant(participantId)
+    .then(() => {
+      res.json({
+        message: "Participant was deleted successfully!",
+      });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const recommendFurniture = (req, res) => {
   const participantId = req.params.participantId;
   const formDTO = req.body;
@@ -34,4 +63,9 @@ const recommendFurniture = (req, res) => {
     });
 };
 
-export { createParticipant, recommendFurniture };
+export {
+  createParticipant,
+  readParticipant,
+  deleteParticipant,
+  recommendFurniture,
+};

@@ -1,5 +1,7 @@
 import {
   createParticipant,
+  readParticipant,
+  deleteParticipant,
   recommendFurniture,
 } from "../controllers/FormController.js";
 
@@ -13,6 +15,10 @@ export default (app) => {
   });
 
   app.post("/form", createParticipant);
+
+  app.get("/form/:participantId", readParticipant);
+
+  app.delete("/form/:participantId", deleteParticipant);
 
   app.put("/form/:participantId", recommendFurniture);
 };

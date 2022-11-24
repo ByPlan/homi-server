@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Furniture", {
+    await queryInterface.createTable("Furnitures", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       style: {
-        type: Sequelize.STRING,
+        type: Sequelize.JSON,
       },
       texture: {
         type: Sequelize.STRING,
@@ -42,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Furniture");
+    await queryInterface.dropTable("Furnitures");
   },
 };

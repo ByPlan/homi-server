@@ -5,8 +5,8 @@ export default (sequelize, DataTypes) => {
   class Participant extends Model {
     static associate(models) {
       models.Participant.belongsToMany(models.Furniture, {
-        through: "ParticipantFurnitures",
-        as: "furnitures",
+        through: "FurnitureParticipants",
+        as: "furniture",
         foreignKey: "participantId",
       });
     }

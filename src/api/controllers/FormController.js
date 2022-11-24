@@ -53,7 +53,7 @@ const recommendFurniture = (req, res) => {
     .recommendFurniture(participantId, formDTO)
     .then((participant, furniture) => {
       res.json({
-        message: "Furnitures were recommended successfully!",
+        message: "Furniture was recommended successfully!",
         participant: participant,
         furniture: furniture,
       });

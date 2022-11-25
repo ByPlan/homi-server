@@ -11,6 +11,7 @@ web-build/
 .vscode/
 .env*
 src/db/config/database.json
+src/db/seeders/
 
 # macOS
 .DS_Store

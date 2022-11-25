@@ -1,4 +1,6 @@
+import { Op } from "sequelize";
 import db from "../db/models/index.js";
+import { cosineSim } from "../helpers/CosineSimilarity.js";
 
 export default class FormService {
   async createParticipant(participantDTO) {
@@ -28,7 +30,7 @@ export default class FormService {
   }
 
   async recommendFurniture(participantId, formDTO) {
-    const participantRecord = await db.Participant.update(
+    await db.Participant.update(
       {
         style: formDTO.style,
         wallpaper: formDTO.wallpaper,
@@ -36,12 +38,61 @@ export default class FormService {
       },
       { where: { id: participantId } }
     );
+    const participantRecord = await db.Participant.findByPk(participantId);
     if (!participantRecord) {
       throw new Error("Participant not found!");
     }
-    const furnitureList = [];
-    for (const furniture of participantRecord.budget) {
-      furnitureList.push(furniture);
+
+    const styleResult = [];
+    for (const key in participantRecord.style) {
+      styleResult.push(Number(participantRecord.style[key]));
     }
+    console.log(styleResult);
+    const budgetRange = {};
+    for (const key in participantRecord.budget) {
+      budgetRange[key + "0"] = Number(
+        participantRecord.budget[key].split("-")[0].replace(",", "")
+      );
+      budgetRange[key + "1"] = Number(
+        participantRecord.budget[key].split("-")[1].replace(",", "")
+      );
+    }
+
+    const recommendedFurniture = [];
+    for (const key in participantRecord.budget) {
+      const furnitureList = await db.Furniture.findAll({
+        where: {
+          type: key,
+          price: {
+            [Op.between]: [budgetRange[key + "0"], budgetRange[key + "1"]],
+          },
+        },
+      });
+
+      const simList = {};
+      for (const furniture of furnitureList) {
+        const furnitureSim = Object.values(furniture.style).map((style) => {
+          return Number(style);
+        });
+
+        simList[furniture.id] = cosineSim(styleResult, furnitureSim);
+        console.log(simList);
+      }
+
+      let maxSim = 0;
+      let maxSimId = 0;
+      for (const sim in simList) {
+        if (maxSim <= simList[sim]) {
+          maxSim = simList[sim];
+          maxSimId = sim;
+        }
+      }
+
+      await db.Furniture.findByPk(maxSimId).then((furniture) => {
+        recommendedFurniture.push(furniture);
+      });
+    }
+
+    return { participant: participantRecord, furniture: recommendedFurniture };
   }
 }

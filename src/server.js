@@ -50,9 +50,9 @@ authRouter(app);
 formRouter(app);
 
 // development mode
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync DB");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync DB");
+// });
 
 // db.sequelize.sync();
 

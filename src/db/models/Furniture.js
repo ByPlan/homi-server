@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       style: DataTypes.JSON,
       texture: DataTypes.STRING,
-      price: DataTypes.STRING,
+      price: DataTypes.INTEGER,
       imageLink: DataTypes.STRING,
       storeLink: DataTypes.STRING,
     },

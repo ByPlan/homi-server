@@ -16,6 +16,9 @@ module.exports = {
       job: {
         type: Sequelize.STRING,
       },
+      contact: {
+        type: Sequelize.STRING,
+      },
       residenceType: {
         type: Sequelize.STRING,
       },

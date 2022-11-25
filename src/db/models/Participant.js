@@ -16,6 +16,7 @@ export default (sequelize, DataTypes) => {
       age: DataTypes.INTEGER,
       job: DataTypes.STRING,
       residenceType: DataTypes.STRING,
+      contact: DataTypes.STRING,
       style: DataTypes.JSON,
       wallpaper: DataTypes.STRING,
       budget: DataTypes.JSON,

@@ -51,22 +51,9 @@ export default class FormService {
     for (const key in participantRecord.style) {
       styleResult.push(Number(participantRecord.style[key]));
     }
+    console.log("-------------------- User style result --------------------");
     console.log(styleResult);
-    const budgetRange = {};
-    for (const key in participantRecord.budget) {
-      budgetRange[key + "0"] = Number(
-        participantRecord.budget[key]
-          .split("-")[0]
-          .replace(",", "")
-          .replace("원", "")
-      );
-      budgetRange[key + "1"] = Number(
-        participantRecord.budget[key]
-          .split("-")[1]
-          .replace(",", "")
-          .replace("원", "")
-      );
-    }
+    console.log("-----------------------------------------------------------");
 
     const recommendedFurniture = [];
     for (const key in participantRecord.budget) {
@@ -74,7 +61,20 @@ export default class FormService {
         where: {
           type: key,
           price: {
-            [Op.between]: [budgetRange[key + "0"], budgetRange[key + "1"]],
+            [Op.between]: [
+              Number(
+                participantRecord.budget[key]
+                  .split("-")[0]
+                  .replace(",", "")
+                  .replace("원", "")
+              ),
+              Number(
+                participantRecord.budget[key]
+                  .split("-")[1]
+                  .replace(",", "")
+                  .replace("원", "")
+              ),
+            ],
           },
         },
       });
@@ -84,10 +84,15 @@ export default class FormService {
         const furnitureSim = Object.values(furniture.style).map((style) => {
           return Number(style);
         });
-
         simList[furniture.id] = cosineSim(styleResult, furnitureSim);
-        console.log(simList);
       }
+      console.log(
+        `-------------------- ${key}'s similarity list --------------------`
+      );
+      console.log(simList);
+      console.log(
+        "-----------------------------------------------------------"
+      );
 
       let maxSim = 0;
       let maxSimId = 0;

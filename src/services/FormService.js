@@ -30,11 +30,15 @@ export default class FormService {
   }
 
   async recommendFurniture(participantId, formDTO) {
+    const budget = {};
+    for (const furniture of formDTO.budget) {
+      budget[furniture.type] = furniture.price;
+    }
     await db.Participant.update(
       {
         style: formDTO.style,
         wallpaper: formDTO.wallpaper,
-        budget: formDTO.budget,
+        budget: budget,
       },
       { where: { id: participantId } }
     );

@@ -51,10 +51,16 @@ export default class FormService {
     const budgetRange = {};
     for (const key in participantRecord.budget) {
       budgetRange[key + "0"] = Number(
-        participantRecord.budget[key].split("-")[0].replace(",", "")
+        participantRecord.budget[key]
+          .split("-")[0]
+          .replace(",", "")
+          .replace("원", "")
       );
       budgetRange[key + "1"] = Number(
-        participantRecord.budget[key].split("-")[1].replace(",", "")
+        participantRecord.budget[key]
+          .split("-")[1]
+          .replace(",", "")
+          .replace("원", "")
       );
     }
 

@@ -108,6 +108,40 @@ export default class FormService {
       });
     }
 
-    return { participant: participantRecord, furniture: recommendedFurniture };
+    const styleOrder = [];
+    for (let i = 0; i < recommendedFurniture.length; i++) {
+      let j = 0;
+      for (const tag in recommendedFurniture[i].style) {
+        if (i == 0) {
+          styleOrder.push({
+            tag: tag,
+            ratio: Number(recommendedFurniture[i].style[tag]),
+          });
+        } else {
+          styleOrder[j].ratio += Number(recommendedFurniture[i].style[tag]);
+        }
+        j++;
+      }
+    }
+    styleOrder
+      .sort((a, b) => a.ratio - b.ratio)
+      .reverse()
+      .splice(3, 4);
+
+    let styleSum = 0;
+    styleOrder.forEach((element) => {
+      styleSum += element.ratio;
+    });
+    for (const style of styleOrder) {
+      style.ratio = Math.round((style.ratio / styleSum) * 1000) / 10;
+    }
+
+    console.log(styleOrder);
+
+    return {
+      participant: participantRecord,
+      furniture: recommendedFurniture,
+      keyword: styleOrder,
+    };
   }
 }

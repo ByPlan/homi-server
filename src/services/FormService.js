@@ -137,8 +137,6 @@ export default class FormService {
       style.ratio = Math.round((style.ratio / styleSum) * 1000) / 10;
     }
 
-    console.log(styleOrder);
-
     const keyStyle = [];
     let message = "";
     keyStyle.push(styleOrder[0].tag, styleOrder[1].tag);

@@ -180,4 +180,15 @@ export default class FormService {
       furniture: recommendedFurniture,
     };
   }
+
+  async addContact(participantId, contactDTO) {
+    const participantRecord = await db.Participant.update(
+      { contact: contactDTO.contact.replace("-", "").replace(" ", "") },
+      { where: { id: participantId } }
+    );
+    if (!participantRecord) {
+      throw new Error("Participant not found!");
+    }
+    return participantRecord;
+  }
 }

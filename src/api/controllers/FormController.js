@@ -64,9 +64,26 @@ const recommendFurniture = (req, res) => {
     });
 };
 
+const addContact = (req, res) => {
+  const participantId = req.params.participantId;
+  const contactDTO = req.body;
+  form
+    .recommendFurniture(participantId, contactDTO)
+    .then(({ message, participant }) => {
+      res.json({
+        message: message,
+        participant: participant,
+      });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 export {
   createParticipant,
   readParticipant,
   deleteParticipant,
   recommendFurniture,
+  addContact,
 };

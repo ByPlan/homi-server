@@ -3,6 +3,7 @@ import {
   readParticipant,
   deleteParticipant,
   recommendFurniture,
+  addContact,
 } from "../controllers/FormController.js";
 
 export default (app) => {
@@ -21,4 +22,6 @@ export default (app) => {
   app.delete("/form/:participantId", deleteParticipant);
 
   app.put("/form/:participantId", recommendFurniture);
+
+  app.put("/form/:participantId/contact", addContact);
 };

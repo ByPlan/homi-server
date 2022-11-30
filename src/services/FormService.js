@@ -52,9 +52,13 @@ export default class FormService {
     for (const key in participantRecord.style) {
       styleResult.push(Number(participantRecord.style[key]));
     }
-    console.log("-------------------- User style result --------------------");
+    console.log(
+      "---------------------- User style result ----------------------"
+    );
     console.log(styleResult);
-    console.log("-----------------------------------------------------------");
+    console.log(
+      "---------------------------------------------------------------"
+    );
 
     const recommendedFurniture = [];
     for (const key in participantRecord.budget) {
@@ -92,7 +96,7 @@ export default class FormService {
       );
       console.log(simList);
       console.log(
-        "-----------------------------------------------------------"
+        "---------------------------------------------------------------"
       );
 
       let maxSim = 0;
@@ -183,7 +187,12 @@ export default class FormService {
 
   async addContact(participantId, contactDTO) {
     const participantRecord = await db.Participant.update(
-      { contact: contactDTO.contact.replace("-", "").replace(" ", "") },
+      {
+        contact: contactDTO.contact
+          .replace("-", "")
+          .replace("-", "")
+          .replace(" ", ""),
+      },
       { where: { id: participantId } }
     );
     if (!participantRecord) {

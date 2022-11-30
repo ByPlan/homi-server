@@ -68,7 +68,7 @@ const addContact = (req, res) => {
   const participantId = req.params.participantId;
   const contactDTO = req.body;
   form
-    .recommendFurniture(participantId, contactDTO)
+    .addContact(participantId, contactDTO)
     .then((participant) => {
       res.json({
         message: "Contact was updated successfully!",

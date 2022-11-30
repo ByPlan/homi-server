@@ -69,9 +69,9 @@ const addContact = (req, res) => {
   const contactDTO = req.body;
   form
     .recommendFurniture(participantId, contactDTO)
-    .then(({ message, participant }) => {
+    .then((participant) => {
       res.json({
-        message: message,
+        message: "Contact was updated successfully!",
         participant: participant,
       });
     })

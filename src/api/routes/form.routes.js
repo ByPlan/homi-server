@@ -3,7 +3,7 @@ import {
   readParticipant,
   deleteParticipant,
   recommendFurniture,
-  addContact,
+  addReview,
 } from "../controllers/FormController.js";
 
 export default (app) => {
@@ -23,5 +23,5 @@ export default (app) => {
 
   app.put("/form/:participantId", recommendFurniture);
 
-  app.put("/form/:participantId/contact", addContact);
+  app.put("/form/:participantId/review", addReview);
 };

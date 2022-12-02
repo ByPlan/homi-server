@@ -31,6 +31,9 @@ module.exports = {
       budget: {
         type: Sequelize.JSON,
       },
+      rate: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

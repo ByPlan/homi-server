@@ -20,6 +20,7 @@ export default (sequelize, DataTypes) => {
       style: DataTypes.JSON,
       wallpaper: DataTypes.STRING,
       budget: DataTypes.JSON,
+      rate: DataTypes.INTEGER,
     },
     {
       sequelize,

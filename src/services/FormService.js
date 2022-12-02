@@ -185,13 +185,14 @@ export default class FormService {
     };
   }
 
-  async addContact(participantId, contactDTO) {
+  async addReview(participantId, reviewDTO) {
     const participantRecord = await db.Participant.update(
       {
-        contact: contactDTO.contact
+        contact: reviewDTO.contact
           .replace("-", "")
           .replace("-", "")
           .replace(" ", ""),
+        rate: reviewDTO.rate,
       },
       { where: { id: participantId } }
     );

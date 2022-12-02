@@ -64,14 +64,14 @@ const recommendFurniture = (req, res) => {
     });
 };
 
-const addContact = (req, res) => {
+const addReview = (req, res) => {
   const participantId = req.params.participantId;
-  const contactDTO = req.body;
+  const reviewDTO = req.body;
   form
-    .addContact(participantId, contactDTO)
+    .addReview(participantId, reviewDTO)
     .then((participant) => {
       res.json({
-        message: "Contact was updated successfully!",
+        message: "Review was updated successfully!",
         participant: participant,
       });
     })
@@ -85,5 +85,5 @@ export {
   readParticipant,
   deleteParticipant,
   recommendFurniture,
-  addContact,
+  addReview,
 };

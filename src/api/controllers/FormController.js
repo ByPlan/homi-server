@@ -48,7 +48,7 @@ const deleteParticipant = (req, res) => {
 
 const recommendFurniture = (req, res) => {
   const participantId = req.params.participantId;
-  const recommendationType = req.params.recommendationType;
+  const recommendationType = req.query.recommendationType;
   const formDTO = req.body;
   form
     .recommendFurniture(participantId, recommendationType, formDTO)

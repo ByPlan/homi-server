@@ -21,7 +21,7 @@ export default (app) => {
 
   app.delete("/form/:participantId", deleteParticipant);
 
-  app.put("/form/:participantId", recommendFurniture);
+  app.put("/form/:participantId/:recommendationType", recommendFurniture);
 
   app.put("/form/:participantId/review", addReview);
 };

@@ -30,10 +30,45 @@ export default class FormService {
     return;
   }
 
-  async recommendFurniture(participantId, formDTO) {
-    const budget = {};
-    for (const furniture of formDTO.budget) {
-      budget[furniture.type] = furniture.price;
+  async recommendFurniture(participantId, recommendationType, formDTO) {
+    let budget = {};
+    if (recommendationType == 1) {
+      for (const furniture of formDTO.budget) {
+        budget[furniture.type] = furniture.price;
+      }
+    } else if (recommendationType == 2) {
+      budget = {
+        침대: 10,
+        책상: 5,
+        수납장: 5,
+        협탁: 3,
+        옷장: 8,
+        의자: 4,
+        러그: 2,
+        조명: 3,
+      };
+      for (const furniture of formDTO.furniture) {
+        delete budget[furniture];
+      }
+      const sum = Object.values(budget).reduce((a, b) => {
+        return a + b;
+      });
+      const totalBudget = Number(
+        formDTO.budget.replace(",", "").replace("원", "")
+      );
+      for (const furniture in budget) {
+        budget[furniture] =
+          Math.round(
+            ((budget[furniture] / sum) * totalBudget * 0.75) / 1000
+          ).toString() +
+          ",000원-" +
+          Math.round(
+            ((budget[furniture] / sum) * totalBudget * 1.25) / 1000
+          ).toString() +
+          ",000원";
+      }
+    } else {
+      throw new Error("Wrong recommendation type! (Please check your route)");
     }
     await db.Participant.update(
       {

@@ -48,9 +48,10 @@ const deleteParticipant = (req, res) => {
 
 const recommendFurniture = (req, res) => {
   const participantId = req.params.participantId;
+  const recommendationType = req.params.recommendationType;
   const formDTO = req.body;
   form
-    .recommendFurniture(participantId, formDTO)
+    .recommendFurniture(participantId, recommendationType, formDTO)
     .then(({ message, keyword, participant, furniture }) => {
       res.json({
         message: message,

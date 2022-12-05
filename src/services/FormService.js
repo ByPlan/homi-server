@@ -169,11 +169,18 @@ export default class FormService {
       .splice(3, 4);
 
     let styleSum = 0;
+    let ratioSum = 0;
     styleOrder.forEach((element) => {
       styleSum += element.ratio;
     });
     for (const style of styleOrder) {
       style.ratio = Math.round((style.ratio / styleSum) * 1000) / 10;
+      ratioSum = ratioSum + style.ratio;
+    }
+    if (ratioSum - 100 < 0) {
+      styleOrder[0] = styleOrder[0] + 100 - ratioSum;
+    } else if (ratioSum - 100 > 0) {
+      styleOrder[2] = styleOrder[2] + 100 - ratioSum;
     }
 
     const keyStyle = [];

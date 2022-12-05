@@ -178,9 +178,11 @@ export default class FormService {
       ratioSum = ratioSum + style.ratio;
     }
     if (ratioSum - 100 < 0) {
-      styleOrder[0] = styleOrder[0] + 100 - ratioSum;
+      styleOrder[0].ratio =
+        Math.round((styleOrder[0].ratio + 100 - ratioSum) * 10) / 10;
     } else if (ratioSum - 100 > 0) {
-      styleOrder[2] = styleOrder[2] + 100 - ratioSum;
+      styleOrder[2].ratio =
+        Math.round((styleOrder[2].ratio + 100 - ratioSum) * 10) / 10;
     }
 
     const keyStyle = [];

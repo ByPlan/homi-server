@@ -31,6 +31,7 @@ export default class FormService {
   }
 
   async recommendFurniture(participantId, recommendationType, formDTO) {
+    const start = new Date().getTime();
     let budget = {};
     if (recommendationType == 1) {
       for (const furniture of formDTO.budget) {
@@ -70,17 +71,29 @@ export default class FormService {
     } else {
       throw new Error("Wrong recommendation type! (Please check your route)");
     }
-    await db.Participant.update(
-      {
+
+    let participantRecord = await db.Participant.findByPk(participantId);
+    if (!participantRecord) {
+      throw new Error("Participant not found!");
+    }
+
+    if (participantRecord.budget == null) {
+      await participantRecord.update({
         style: formDTO.style,
         wallpaper: formDTO.wallpaper,
         budget: budget,
-      },
-      { where: { id: participantId } }
-    );
-    const participantRecord = await db.Participant.findByPk(participantId);
-    if (!participantRecord) {
-      throw new Error("Participant not found!");
+      });
+    } else {
+      await db.Participant.create({
+        age: participantRecord.age,
+        job: participantRecord.job,
+        residenceType: participantRecord.residenceType,
+        style: formDTO.style,
+        wallpaper: formDTO.wallpaper,
+        budget: budget,
+      }).then((participantDTO) => {
+        participantRecord = participantDTO;
+      });
     }
 
     const styleResult = [];
@@ -96,6 +109,7 @@ export default class FormService {
     );
 
     const recommendedFurniture = [];
+    let totalPrice = 0;
     for (const key in participantRecord.budget) {
       const furnitureList = await db.Furniture.findAll({
         where: {
@@ -145,6 +159,10 @@ export default class FormService {
 
       await db.Furniture.findByPk(maxSimId).then((furniture) => {
         recommendedFurniture.push(furniture);
+        totalPrice = totalPrice + furniture.price;
+      });
+      await participantRecord.addFurniture(maxSimId, {
+        through: "FurnitureParticipants",
       });
     }
 
@@ -220,26 +238,42 @@ export default class FormService {
       message =
         "차 한잔이 생각나는 따스하면서 포근한 분위기를 선호하시는군요. 원목과 패브릭의 조합으로 독특한 색감과 패턴을 연출할 수 있습니다. 아래 추천 가구를 확인하시고 당신만의 공간을 꾸며보세요.";
     }
+    const end = new Date().getTime();
+    const diff = end - start;
+    console.log(
+      "---------------------------- " + diff + "ms ----------------------------"
+    );
 
     return {
       message: message,
       keyword: styleOrder,
       participant: participantRecord,
       furniture: recommendedFurniture,
+      totalPrice: totalPrice,
     };
   }
 
   async addReview(participantId, reviewDTO) {
-    const participantRecord = await db.Participant.update(
-      {
-        contact: reviewDTO.contact
-          .replace("-", "")
-          .replace("-", "")
-          .replace(" ", ""),
-        rate: reviewDTO.rate,
-      },
-      { where: { id: participantId } }
-    );
+    let participantRecord = await db.Participant.findByPk(participantId);
+    if (reviewDTO.contact != null) {
+      await participantRecord.update(
+        {
+          contact: reviewDTO.contact
+            .replace("-", "")
+            .replace("-", "")
+            .replace(" ", ""),
+          rate: reviewDTO.rate,
+        },
+        { where: { id: participantId } }
+      );
+    } else if (reviewDTO.contact == null) {
+      await participantRecord.update(
+        {
+          rate: reviewDTO.rate,
+        },
+        { where: { id: participantId } }
+      );
+    }
     if (!participantRecord) {
       throw new Error("Participant not found!");
     }
